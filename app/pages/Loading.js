@@ -2,15 +2,14 @@ import {
   Text,
   View,
   StyleSheet,
-  SafeAreaView,
   Image,
   Animated,
   StatusBar,
+  ImageBackground,
 } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
-//import { Link, useNavigation } from "expo-router";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-//imported useful stuff
 
 import {
   useFonts,
@@ -20,15 +19,13 @@ import {
   OpenSans_700Bold,
   OpenSans_800ExtraBold,
 } from "@expo-google-fonts/open-sans";
-//imported fonts
-
-//add fade between pages
-//maybe make buttons not move when keyboard is used
+import { router } from "expo-router";
 
 export default function Loading() {
   const navigation = useNavigation();
 
   const fadeAnim = useRef(new Animated.Value(1)).current;
+  const backgroundImage = require("../assets/background.jpg");
 
   const fadeIn = () => {
     Animated.timing(fadeAnim, {
@@ -45,6 +42,7 @@ export default function Loading() {
       useNativeDriver: true,
     }).start();
   };
+
   let [fontsLoaded] = useFonts({
     OpenSans_400Regular,
     OpenSans_500Medium,
@@ -72,39 +70,51 @@ export default function Loading() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar hidden />
-      <Animated.View style={{ opacity: fadeAnim }}>
-        <View style={styles.header1}>
-          <Image source={require("../assets/image.png")} style={styles.logo} />
-
-          <Text style={styles.text1}>ORBIS</Text>
-        </View>
-      </Animated.View>
-    </SafeAreaView>
+    <SafeAreaProvider>
+      <ImageBackground source={backgroundImage} style={styles.background}>
+        <SafeAreaView style={styles.safeArea}>
+          <StatusBar barStyle="light-content" backgroundColor="black" />
+          <Animated.View style={{ opacity: fadeAnim, ...styles.container }}>
+            <View style={styles.header1}>
+              <Image
+                source={require("../assets/image.png")}
+                style={styles.logo}
+              />
+              <Text style={styles.text1}>ORBIS</Text>
+            </View>
+          </Animated.View>
+        </SafeAreaView>
+      </ImageBackground>
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
+  background: {
+    flex: 1,
+    resizeMode: "cover",
+  },
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "black",
+
     paddingBottom: "10%",
   },
   logo: {
-    width: 100,
-    height: 100,
+    width: 200,
+    height: 200,
     resizeMode: "contain",
   },
   text1: {
     fontFamily: "OpenSans_700Bold",
-    fontSize: 24,
+    fontSize: 30,
     paddingTop: "2%",
     letterSpacing: -1.38,
-    color: "white",
+    color: "black",
   },
   header1: {
     justifyContent: "center",

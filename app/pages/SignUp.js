@@ -9,6 +9,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  Link,
 } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -76,6 +77,10 @@ export default function Signup() {
     navigation.navigate("LogIn");
   };
 
+  const handleTD = () => {
+    navigation.navigate("TermsConditions");
+  };
+
   const handleRegister = async () => {
     try {
       const response = await fetch(
@@ -98,7 +103,7 @@ export default function Signup() {
       const data = await response.json();
       if (response.ok) {
         alert(data.message);
-        navigation.navigate("LogIn");
+        navigation.navigate("pages/log_in");
       } else {
         alert(data.message);
       }
@@ -162,7 +167,7 @@ export default function Signup() {
               onChangeText={handleDateChange}
               keyboardType="numeric"
               maxLength={10}
-              placeholder="" // Keep placeholder empty
+              placeholder=""
             />
             <Text
               style={[
@@ -219,7 +224,28 @@ export default function Signup() {
             />
           </TouchableOpacity>
         </View>
-        <View style={styles.bottomPart}>
+        <View style={styles.columnContainer}>
+          <View style={styles.square} />
+          <View>
+            <Text style={styles.textTD}>Terms & Conditions</Text>
+            <View style={styles.containerAlignText}>
+              <Text style={styles.textConsent}>I have read & agree with</Text>
+              <View marginLeft={3}>
+                <TouchableOpacity onPress={handleTD}>
+                  <Text style={styles.textConsentTD}>
+                    Orbis Terms & Conditions
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View style={styles.containerNextButton}>
+          <TouchableOpacity style={styles.nextButton} onPress={handleRegister}>
+            <Text style={styles.textButton}>Next</Text>
+          </TouchableOpacity>
+        </View>
+        {/*<View style={styles.bottomPart}>
           <View style={styles.termsAndConditions}>
             <View style={styles.square} />
             <Text style={styles.textTD}>Terms & Conditions</Text>
@@ -232,7 +258,7 @@ export default function Signup() {
           <TouchableOpacity style={styles.nextButton} onPress={handleRegister}>
             <Text style={styles.textButton}>Next</Text>
           </TouchableOpacity>
-        </View>
+        </View>*/}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -334,8 +360,17 @@ const styles = StyleSheet.create({
   square: {
     width: 20,
     height: 20,
-    backgroundColor: "black",
-    marginRight: 10,
+    backgroundColor: "transparent",
+    borderColor: "black",
+    borderWidth: 2,
+    borderRadius: 2,
+    marginRight: 8,
+    marginBottom: 14,
+  },
+  columnContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
   },
   textTD: {
     fontFamily: "OpenSans_800ExtraBold",
@@ -347,8 +382,21 @@ const styles = StyleSheet.create({
   textConsent: {
     fontFamily: "OpenSans_500Medium",
   },
+  textConsentTD: {
+    textDecorationLine: "underline",
+  },
+  containerAlignText: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  containerNextButton: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: "4%",
+  },
   nextButton: {
-    backgroundColor: "#4CAF50",
+    backgroundColor: "#41980B",
     paddingVertical: 20,
     width: "80%",
     borderRadius: 5,

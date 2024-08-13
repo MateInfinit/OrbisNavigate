@@ -6,15 +6,17 @@ import {
   SafeAreaView,
   Image,
   Animated,
+  StatusBarStyle,
   StatusBar,
-  TouchableOpacity,
-  TextInput,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
 } from "react-native";
 import React, { useState, useRef, useEffect } from "react";
+import { Link, SplashScreen, font } from "expo-router";
+import { TouchableOpacity } from "react-native";
+import { TextInput } from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+//imported useful stuff
+
 import {
   useFonts,
   OpenSans_400Regular,
@@ -23,23 +25,27 @@ import {
   OpenSans_700Bold,
   OpenSans_800ExtraBold,
 } from "@expo-google-fonts/open-sans";
-import Icon from "react-native-vector-icons/FontAwesome";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+//imported fonts
 
-// Starting the page:
-export default function LogIn() {
+import Icon from "react-native-vector-icons/FontAwesome";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+//imported icons
+
+//starting the page:
+export default log_in = () => {
   let [fontsLoaded] = useFonts({
     OpenSans_400Regular,
     OpenSans_500Medium,
     OpenSans_600SemiBold,
     OpenSans_700Bold,
     OpenSans_800ExtraBold,
-  }); // Just fonts
+  }); //just fonts
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  // Managed user inputs
+  //managed user inputs
 
   const navigation = useNavigation();
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -47,7 +53,7 @@ export default function LogIn() {
   const handleLogin = async () => {
     try {
       const response = await fetch(
-        "https://f70d-78-97-173-76.ngrok-free.app/api/users/login",
+        "https://a112-78-97-173-76.ngrok-free.app/api/users/login",
         {
           method: "POST",
           headers: {
@@ -60,7 +66,7 @@ export default function LogIn() {
       const data = await response.json();
       if (response.ok) {
         alert(data.message);
-        navigation.navigate("AllDone");
+        navigation.navigate("pages/alldone");
       } else {
         alert(data.message);
       }
@@ -99,24 +105,19 @@ export default function LogIn() {
   const handleSignUp = () => {
     navigation.navigate("SignUp");
   };
-  // Handled pressing the buttons
-
+  //handled pressing the buttons
   if (!fontsLoaded) {
     return null;
   }
-
   return (
     <SafeAreaView style={styles.safearea}>
       <StatusBar barStyle={"dark-content"} />
-      <KeyboardAvoidingView
+      <KeyboardAvoidingView //pentru ca butoanele sa nu se mutileze cand deschizi tastatura
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.container}
+        style={{ flex: 1 }}
       >
-        <Animated.View style={[styles.animatedView, { opacity: fadeAnim }]}>
-          <ScrollView
-            contentContainerStyle={styles.scrollViewContent}
-            bounces={false}
-          >
+        <Animated.View style={{ opacity: fadeAnim }}>
+          <ScrollView contentContainerStyle={{ flexGrow: 1 }} bounces={false}>
             <View style={styles.header1}>
               <Image
                 source={require("../assets/image.png")}
@@ -163,6 +164,7 @@ export default function LogIn() {
                 autoCapitalize="none"
                 placeholderTextColor={"gray"}
               />
+
               <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
                 <MaterialCommunityIcons
                   name={showPassword ? "eye-outline" : "eye-off-outline"}
@@ -172,13 +174,12 @@ export default function LogIn() {
               </TouchableOpacity>
             </View>
 
-            <TouchableOpacity
-              style={styles.forgotText}
-              onPress={() => navigation.navigate("Recovery1")}
-            >
-              <Text style={styles.forgotText2}>Forgot your password?</Text>
-            </TouchableOpacity>
-
+            <View style={styles.forgotText}>
+              <Link href={"Recovery1"}>
+                <Text style={styles.forgotText2}>Forgot passsword?</Text>
+              </Link>
+              <View style={styles.underline} />
+            </View>
             <View style={styles.lastButtons}>
               <TouchableOpacity
                 style={styles.loginButton}
@@ -199,114 +200,124 @@ export default function LogIn() {
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
-}
+};
 
-// Each style use can be deducted by the name:
+//each style use can be deducted by the name:
 
 const styles = StyleSheet.create({
   safearea: {
     flex: 1,
     backgroundColor: "#fff", // Ensure background color is consistent
   },
-  container: {
+  input: {
     flex: 1,
-    backgroundColor: "#fff", // Ensure container background color
-    paddingHorizontal: 20, // Adjust padding if necessary
+    height: 50,
+    fontSize: 16,
+    paddingHorizontal: 20,
+  },
+  text4: {
+    fontFamily: "OpenSans_700Bold",
+    fontSize: 17,
+    paddingLeft: 2,
+    paddingTop: "2%",
+    alignText: "center",
+    alignItems: "center",
     justifyContent: "center",
+    color: "white",
   },
-  animatedView: {
+  text5: {
+    fontFamily: "OpenSans_700Bold",
+    fontSize: 17,
+    paddingLeft: 2,
+    alignItems: "center",
+    alignText: "center",
+    justifyContent: "center",
+    paddingTop: "2%",
+    color: "black", // Updated color to match design
+  },
+  loginButton: {
+    backgroundColor: "#41980B", // Updated color to match design
+    paddingVertical: 15,
+    borderRadius: 10,
+    width: "100%",
+    alignItems: "center",
+    marginBottom: 15,
+  },
+  signupButton: {
+    borderWidth: 1,
+    borderColor: "#28a745", // Updated color to match design
+    paddingVertical: 15,
+    borderRadius: 10,
+    width: "100%",
+    alignItems: "center",
+  },
+  lastButtons: {
     flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 20,
+    paddingBottom: "35%",
   },
-  scrollViewContent: {
-    flexGrow: 1,
-    justifyContent: "center", // Center content vertically
+  forgotText: {
+    alignSelf: "flex-end",
+    marginRight: 20,
+    paddingBottom: "13%",
+  },
+  forgotText2: {
+    fontFamily: "OpenSans_700Bold",
+    fontSize: 15,
+    letterSpacing: 1,
+    color: "#351F17",
+    textDecorationLine: "underline",
+    textDecorationStyle: "solid",
+    textDecorationColor: "#351F17",
   },
   header1: {
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
-    marginBottom: 10,
+    paddingTop: "5%",
+  },
+  header2: {
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+  text1: {
+    fontFamily: "OpenSans_800ExtraBold",
+    fontSize: 24,
+    paddingTop: "4%",
+    paddingRight: "5%",
+    letterSpacing: -1.38,
+  },
+  text2: {
+    fontFamily: "OpenSans_600SemiBold",
+    fontSize: 15,
+    paddingLeft: 2,
+    paddingTop: "10%",
+  },
+  text3: {
+    fontFamily: "OpenSans_800ExtraBold",
+    fontSize: 27,
+    paddingLeft: 2,
+    paddingTop: "3%",
+    paddingBottom: "20%",
+    letterSpacing: -1,
   },
   logo: {
     width: 50,
     height: 50,
     resizeMode: "contain",
   },
-  text1: {
-    fontFamily: "OpenSans_800ExtraBold",
-    fontSize: 24,
-    marginLeft: 10,
-  },
-  header2: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  text2: {
-    fontFamily: "OpenSans_600SemiBold",
-    fontSize: 15,
-  },
-  text3: {
-    fontFamily: "OpenSans_800ExtraBold",
-    fontSize: 27,
-    marginTop: 5,
-    marginBottom: 20,
-  },
   inputBox: {
     flexDirection: "row",
     alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#ccc",
+    borderWidth: 2,
+    borderColor: "lightgray", // Updated color to match design
     borderRadius: 10,
-    marginBottom: 15,
+    marginBottom: 20,
     paddingHorizontal: 10,
-    height: 50,
-  },
-  inputIcon: {
-    marginRight: 10,
-  },
-  input: {
-    flex: 1,
-    fontSize: 16,
-    paddingHorizontal: 10, // Adjusted padding
-  },
-  forgotText: {
-    alignSelf: "flex-end",
-    paddingBottom: 20,
-  },
-  forgotText2: {
-    fontFamily: "OpenSans_700Bold",
-    fontSize: 15,
-    color: "#351F17",
-    textDecorationLine: "underline",
-  },
-  lastButtons: {
-    paddingHorizontal: 10,
-  },
-  loginButton: {
-    backgroundColor: "#2E8B57",
-    paddingVertical: 15,
-    borderRadius: 10,
-    width: "100%",
-    alignItems: "center",
-    marginBottom: 10, // Adjust spacing
-  },
-  text4: {
-    fontFamily: "OpenSans_700Bold",
-    fontSize: 15,
-    color: "white",
-  },
-  signupButton: {
-    borderWidth: 1,
-    borderColor: "#2E8B57",
-    paddingVertical: 15,
-    borderRadius: 10,
-    width: "100%",
-    alignItems: "center",
-  },
-  text5: {
-    fontFamily: "OpenSans_700Bold",
-    fontSize: 15,
-    color: "#2E8B57",
+    width: "90%",
+    marginLeft: "5%",
   },
 });

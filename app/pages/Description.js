@@ -1,31 +1,27 @@
+import React, { useRef, useEffect } from "react";
 import {
-  Button,
-  Text,
   View,
+  Text,
   StyleSheet,
   SafeAreaView,
   Image,
   Animated,
-  StatusBarStyle,
   StatusBar,
+  Dimensions,
+  TouchableOpacity,
+  Platform,
 } from "react-native";
-import React, { useState, useRef, useEffect } from "react";
-import { Link, SplashScreen, font } from "expo-router";
 import { useNavigation } from "@react-navigation/native";
-import { TouchableOpacity } from "react-native";
-import { TextInput } from "react-native";
-import { KeyboardAvoidingView, Platform, ScrollView } from "react-native";
-//imported useful stuff
+import { useWindowDimensions } from "react-native";
+import { useFonts } from "@expo-google-fonts/open-sans";
 
 import {
-  useFonts,
   OpenSans_400Regular,
   OpenSans_500Medium,
   OpenSans_600SemiBold,
   OpenSans_700Bold,
   OpenSans_800ExtraBold,
 } from "@expo-google-fonts/open-sans";
-//imported fonts
 
 export default function Description() {
   let [fontsLoaded] = useFonts({
@@ -37,21 +33,11 @@ export default function Description() {
   });
   const navigation = useNavigation();
 
-  /* 
- useEffect(() => {
-    const unsubscribe = navigation.addListener("beforeRemove", (e) => {
-      e.preventDefault();
-    });
-
-    return unsubscribe;
-  }, [navigation]);
-  
-    pana aici- utilizatorul nu mai poate da back,
-    dar atentie! nici butoanele care vor trimite la pagini anterioare nu vor functiona (e.g cancel)
-  */
   const handleContinue = () => {
     navigation.navigate("LogIn");
   };
+
+  const { height, width } = useWindowDimensions();
 
   if (!fontsLoaded) {
     return null;
@@ -61,8 +47,16 @@ export default function Description() {
     <SafeAreaView style={styles.safeview}>
       <View style={styles.container}>
         <StatusBar barStyle={"dark-content"} />
-        <Image source={require("../assets/image.png")} style={styles.logo} />
-        <Text style={styles.textDescriptionIntroduction}>
+        <Image
+          source={require("../assets/image.png")}
+          style={[styles.logo, { width: width * 0.55, height: width * 0.55 }]}
+        />
+        <Text
+          style={[
+            styles.textDescriptionIntroduction,
+            { paddingHorizontal: width * 0.1 },
+          ]}
+        >
           Our app helps you track your carbon footprint, discover eco-friendly
           tips, and join a community dedicated to sustainability. Together, we
           can make a positive impact on our planet.
@@ -70,7 +64,13 @@ export default function Description() {
         <Text style={styles.textDescriptionContinue}>
           Tap "Continue" to learn more and start your green journey with Orbis!
         </Text>
-        <TouchableOpacity style={styles.button} onPress={handleContinue}>
+        <TouchableOpacity
+          style={[
+            styles.button,
+            { paddingHorizontal: width * 0.3, paddingVertical: height * 0.025 },
+          ]}
+          onPress={handleContinue}
+        >
           <Text style={styles.continueButton}>Continue</Text>
         </TouchableOpacity>
         <StatusBar style="auto" />
@@ -88,45 +88,42 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   logo: {
-    width: 220,
-    height: 220,
+    width: 200,
+    height: 200,
     resizeMode: "contain",
     marginBottom: 50,
+    marginTop: 40,
   },
   safeview: {
     flex: 1,
+    backgroundColor: "#fff",
   },
   textDescriptionIntroduction: {
-    fontSize: 16,
-    fontFamily: "OpenSans_600SemiBold",
+    fontSize: 17,
+    fontFamily: "OpenSans_700Bold",
     textAlign: "center",
     justifyContent: "center",
     marginBottom: Platform.OS === "ios" ? 80 : 40,
-    paddingHorizontal: 20,
   },
   textDescriptionContinue: {
-    fontSize: 13,
+    fontSize: 17,
     fontFamily: "OpenSans_700Bold",
     textAlign: "center",
     marginBottom: "15%",
     flexShrink: 1,
-
     letterSpacing: -0.5,
+    paddingHorizontal: 20,
   },
   button: {
-    backgroundColor: "#4CAF50",
-    paddingVertical: 20,
-    paddingHorizontal: 110,
+    backgroundColor: "#41980B",
     borderRadius: 5,
     alignItems: "center",
-    width: 329,
-    height: 56,
+    justifyContent: "center",
   },
   continueButton: {
     fontFamily: "OpenSans_600SemiBold",
     color: "white",
-    fontSize: 15,
-    paddingTop: 2,
+    fontSize: 20,
     fontWeight: "bold",
   },
 });

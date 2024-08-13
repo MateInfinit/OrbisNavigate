@@ -7,7 +7,7 @@ import Description from "./app/pages/Description";
 import Recovery1 from "./app/pages/Recovery1";
 import SignUp from "./app/pages/SignUp";
 import AllDone from "./app/pages/AllDone";
-
+import TermsConditions from "./app/pages/TermsConditions";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -60,6 +60,13 @@ export default function App() {
         <Stack.Screen
           name="AllDone"
           component={AllDone}
+          options={{
+            contentStyle: { flex: 1 },
+          }}
+        />
+        <Stack.Screen
+          name="TermsConditions"
+          component={TermsConditions}
           options={{
             contentStyle: { flex: 1 },
           }}
