@@ -1,0 +1,363 @@
+import {
+  Text,
+  View,
+  SafeAreaView,
+  StyleSheet,
+  StatusBar,
+  KeyboardAvoidingView,
+  Platform,
+  TextInput,
+  TouchableOpacity,
+  Image,
+} from "react-native";
+import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import {
+  useFonts,
+  OpenSans_400Regular,
+  OpenSans_500Medium,
+  OpenSans_600SemiBold,
+  OpenSans_700Bold,
+  OpenSans_800ExtraBold,
+} from "@expo-google-fonts/open-sans";
+
+export default function Signup() {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [repeatPassword, setRepeatPassword] = useState("");
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
+
+  const navigation = useNavigation();
+
+  const handleDateChange = (text) => {
+    const cleaned = text.replace(/[^0-9]/g, "");
+    let formattedDate = "";
+
+    if (cleaned.length > 4) {
+      formattedDate = cleaned.slice(0, 4) + "-" + cleaned.slice(4);
+    } else {
+      formattedDate = cleaned;
+    }
+
+    if (cleaned.length > 6) {
+      formattedDate = formattedDate.slice(0, 7) + "-" + formattedDate.slice(7);
+    }
+
+    setDateOfBirth(formattedDate);
+  };
+
+  const getDynamicPlaceholder = () => {
+    const placeholder = "YYYY-MM-DD";
+    const inputLength = dateOfBirth.length;
+    return placeholder.slice(inputLength);
+  };
+
+  const calculatePlaceholderOffset = () => {
+    const characterWidth = 12; // Approximate width of each character in the input
+    const inputLength = dateOfBirth.replace(/[^0-9]/g, "").length;
+    return characterWidth * inputLength;
+  };
+
+  let [fontsLoaded] = useFonts({
+    OpenSans_400Regular,
+    OpenSans_500Medium,
+    OpenSans_600SemiBold,
+    OpenSans_700Bold,
+    OpenSans_800ExtraBold,
+  });
+
+  const handleGoBack = () => {
+    navigation.navigate("LogIn");
+  };
+
+  const handleRegister = async () => {
+    try {
+      const response = await fetch(
+        "https://f70d-78-97-173-76.ngrok-free.app/api/users/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            firstName,
+            lastName,
+            username,
+            dateOfBirth,
+            email,
+            password,
+          }),
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        alert(data.message);
+        navigation.navigate("LogIn");
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error("Error registering: ", error);
+      alert("Registration failed. Please try again.");
+    }
+  };
+
+  return (
+    <SafeAreaView style={styles.safearea}>
+      <StatusBar barStyle={"dark-content"} />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <TouchableOpacity onPress={handleGoBack}>
+          <Image
+            source={require("../assets/left-arrow.png")}
+            style={styles.arrowicon}
+          />
+        </TouchableOpacity>
+        <View style={styles.viewTitle}>
+          <Text style={styles.title}>Sign Up</Text>
+        </View>
+        <View style={styles.inputName}>
+          <View style={styles.lastFirstName}>
+            <TextInput
+              placeholder="First Name"
+              placeholderTextColor={"gray"}
+              style={styles.input}
+              value={firstName}
+              onChangeText={setFirstName}
+            />
+          </View>
+          <View style={styles.lastFirstName}>
+            <TextInput
+              placeholder="Last Name"
+              placeholderTextColor={"gray"}
+              style={styles.input}
+              value={lastName}
+              onChangeText={setLastName}
+            />
+          </View>
+        </View>
+        <View style={styles.inputRows}>
+          <TextInput
+            placeholder="Username"
+            placeholderTextColor={"gray"}
+            style={styles.input}
+            value={username}
+            onChangeText={setUsername}
+          />
+        </View>
+        <View style={styles.inputRows}>
+          <Text style={styles.label}>Date of Birth</Text>
+          <View style={styles.textInputContainer}>
+            <TextInput
+              style={styles.input}
+              value={dateOfBirth}
+              onChangeText={handleDateChange}
+              keyboardType="numeric"
+              maxLength={10}
+              placeholder="" // Keep placeholder empty
+            />
+            <Text
+              style={[
+                styles.dynamicPlaceholder,
+                { left: 15 + calculatePlaceholderOffset() },
+              ]}
+            >
+              {getDynamicPlaceholder()}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.inputRows}>
+          <TextInput
+            placeholder="Email"
+            placeholderTextColor={"gray"}
+            style={styles.input}
+            value={email}
+            onChangeText={setEmail}
+          />
+        </View>
+        <View style={styles.inputRows}>
+          <TextInput
+            placeholder="Password"
+            secureTextEntry={!showPassword}
+            placeholderTextColor={"gray"}
+            style={styles.input}
+            onChangeText={setPassword}
+            value={password}
+          />
+          <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+            <MaterialCommunityIcons
+              name={showPassword ? "eye-outline" : "eye-off-outline"}
+              size={25}
+              color="#bbb"
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.inputRows}>
+          <TextInput
+            placeholder="Repeat Password"
+            secureTextEntry={!showRepeatPassword}
+            placeholderTextColor={"gray"}
+            style={styles.input}
+            onChangeText={setRepeatPassword}
+            value={repeatPassword}
+          />
+          <TouchableOpacity
+            onPress={() => setShowRepeatPassword(!showRepeatPassword)}
+          >
+            <MaterialCommunityIcons
+              name={showRepeatPassword ? "eye-outline" : "eye-off-outline"}
+              size={25}
+              color="#bbb"
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.bottomPart}>
+          <View style={styles.termsAndConditions}>
+            <View style={styles.square} />
+            <Text style={styles.textTD}>Terms & Conditions</Text>
+          </View>
+          <View style={styles.containerConsent}>
+            <Text style={styles.textConsent}>
+              I have read & agree with Orbis Terms & Conditions
+            </Text>
+          </View>
+          <TouchableOpacity style={styles.nextButton} onPress={handleRegister}>
+            <Text style={styles.textButton}>Next</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  safearea: {
+    flex: 1,
+  },
+  arrowicon: {
+    marginLeft: "7%",
+    marginTop: 10,
+    width: 20,
+    height: 20,
+  },
+  viewTitle: {
+    marginLeft: "7%",
+    marginTop: 40,
+    marginBottom: 40,
+  },
+  title: {
+    fontSize: 30,
+    fontFamily: "OpenSans_800ExtraBold",
+  },
+  inputName: {
+    flexDirection: "row",
+  },
+  lastFirstName: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: "#ccc",
+    borderRadius: 10,
+    marginBottom: 20,
+    marginTop: "3%",
+    width: "39%",
+    marginLeft: "7%",
+  },
+  input: {
+    flex: 1,
+    height: 55,
+    fontSize: 18,
+    paddingHorizontal: 15,
+    fontFamily: "OpenSans_500Medium",
+    textAlignVertical: "center",
+  },
+  inputRows: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: "#ccc",
+    borderRadius: 10,
+    marginBottom: 20,
+    marginTop: "3%",
+    paddingHorizontal: 10,
+    width: "85%",
+    marginLeft: "7%",
+    position: "relative",
+  },
+  textInputContainer: {
+    position: "relative",
+    width: "100%",
+    height: 55, // Ensure this height matches other input fields
+  },
+  staticPlaceholder: {
+    position: "absolute",
+    top: 0,
+    color: "#A9A9A9",
+    fontSize: 18,
+    fontFamily: "OpenSans_500Medium",
+    zIndex: 1,
+    height: 55, // Ensure this height matches the TextInput's height
+    lineHeight: 55, // Ensure lineHeight matches the TextInput's height for vertical alignment
+  },
+  dynamicPlaceholder: {
+    position: "absolute",
+    top: 0,
+    color: "#A9A9A9",
+    fontSize: 18,
+    fontFamily: "OpenSans_500Medium",
+    zIndex: 2, // Ensure this is above the static placeholder
+    height: 55, // Ensure this height matches the TextInput's height
+    lineHeight: 55, // Ensure lineHeight matches the TextInput's height for vertical alignment
+  },
+  label: {
+    marginBottom: 5,
+    color: "#7B7B7B",
+    fontFamily: "OpenSans_500Medium",
+  },
+  bottomPart: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  termsAndConditions: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  square: {
+    width: 20,
+    height: 20,
+    backgroundColor: "black",
+    marginRight: 10,
+  },
+  textTD: {
+    fontFamily: "OpenSans_800ExtraBold",
+    fontSize: 20,
+  },
+  containerConsent: {
+    marginBottom: 25,
+  },
+  textConsent: {
+    fontFamily: "OpenSans_500Medium",
+  },
+  nextButton: {
+    backgroundColor: "#4CAF50",
+    paddingVertical: 20,
+    width: "80%",
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  textButton: {
+    fontFamily: "OpenSans_700Bold",
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+});
