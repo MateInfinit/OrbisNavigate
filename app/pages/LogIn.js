@@ -8,6 +8,7 @@ import {
   Animated,
   StatusBarStyle,
   StatusBar,
+  Alert,
 } from "react-native";
 import React, { useState, useRef, useEffect } from "react";
 import { Link, SplashScreen, font } from "expo-router";
@@ -19,12 +20,12 @@ import { useNavigation } from "@react-navigation/native";
 
 import {
   useFonts,
-  OpenSans_400Regular,
-  OpenSans_500Medium,
-  OpenSans_600SemiBold,
-  OpenSans_700Bold,
-  OpenSans_800ExtraBold,
-} from "@expo-google-fonts/open-sans";
+  Fredoka_400Regular,
+  Fredoka_500Medium,
+  Fredoka_600SemiBold,
+  Fredoka_700Bold,
+  Fredoka_800ExtraBold,
+} from "@expo-google-fonts/fredoka";
 //imported fonts
 
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -35,11 +36,10 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 //starting the page:
 export default log_in = () => {
   let [fontsLoaded] = useFonts({
-    OpenSans_400Regular,
-    OpenSans_500Medium,
-    OpenSans_600SemiBold,
-    OpenSans_700Bold,
-    OpenSans_800ExtraBold,
+    Fredoka_400Regular,
+    Fredoka_500Medium,
+    Fredoka_600SemiBold,
+    Fredoka_700Bold,
   }); //just fonts
 
   const [email, setEmail] = useState("");
@@ -53,7 +53,7 @@ export default log_in = () => {
   const handleLogin = async () => {
     try {
       const response = await fetch(
-        "https://a112-78-97-173-76.ngrok-free.app/api/users/login",
+        "https://b822-78-97-173-76.ngrok-free.app/api/users/login",
         {
           method: "POST",
           headers: {
@@ -65,8 +65,8 @@ export default log_in = () => {
 
       const data = await response.json();
       if (response.ok) {
-        alert(data.message);
-        navigation.navigate("pages/alldone");
+        Alert.alert("Login Successful!");
+        navigation.navigate("AllDone");
       } else {
         alert(data.message);
       }
@@ -175,9 +175,11 @@ export default log_in = () => {
             </View>
 
             <View style={styles.forgotText}>
-              <Link href={"Recovery1"}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Recovery1")}
+              >
                 <Text style={styles.forgotText2}>Forgot passsword?</Text>
-              </Link>
+              </TouchableOpacity>
               <View style={styles.underline} />
             </View>
             <View style={styles.lastButtons}>
@@ -216,7 +218,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   text4: {
-    fontFamily: "OpenSans_700Bold",
+    fontFamily: "Fredoka_700Bold",
     fontSize: 17,
     paddingLeft: 2,
     paddingTop: "2%",
@@ -226,7 +228,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   text5: {
-    fontFamily: "OpenSans_700Bold",
+    fontFamily: "Fredoka_700Bold",
     fontSize: 17,
     paddingLeft: 2,
     alignItems: "center",
@@ -265,7 +267,7 @@ const styles = StyleSheet.create({
     paddingBottom: "13%",
   },
   forgotText2: {
-    fontFamily: "OpenSans_700Bold",
+    fontFamily: "Fredoka_700Bold",
     fontSize: 15,
     letterSpacing: 1,
     color: "#351F17",
@@ -284,21 +286,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text1: {
-    fontFamily: "OpenSans_800ExtraBold",
+    fontFamily: "Fredoka_700Bold",
     fontSize: 24,
     paddingTop: "4%",
     paddingRight: "5%",
     letterSpacing: -1.38,
+    color: "#351F17",
   },
   text2: {
-    fontFamily: "OpenSans_600SemiBold",
-    fontSize: 15,
+    fontFamily: "Fredoka_600SemiBold",
+    fontSize: 23,
     paddingLeft: 2,
     paddingTop: "10%",
   },
   text3: {
-    fontFamily: "OpenSans_800ExtraBold",
-    fontSize: 27,
+    fontFamily: "Fredoka_700Bold",
+    fontSize: 36,
     paddingLeft: 2,
     paddingTop: "3%",
     paddingBottom: "20%",

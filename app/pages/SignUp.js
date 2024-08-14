@@ -10,18 +10,18 @@ import {
   TouchableOpacity,
   Image,
   Link,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   useFonts,
-  OpenSans_400Regular,
-  OpenSans_500Medium,
-  OpenSans_600SemiBold,
-  OpenSans_700Bold,
-  OpenSans_800ExtraBold,
-} from "@expo-google-fonts/open-sans";
+  Fredoka_400Regular,
+  Fredoka_500Medium,
+  Fredoka_600SemiBold,
+  Fredoka_700Bold,
+} from "@expo-google-fonts/fredoka";
 
 export default function Signup() {
   const [firstName, setFirstName] = useState("");
@@ -66,15 +66,32 @@ export default function Signup() {
   };
 
   let [fontsLoaded] = useFonts({
-    OpenSans_400Regular,
-    OpenSans_500Medium,
-    OpenSans_600SemiBold,
-    OpenSans_700Bold,
-    OpenSans_800ExtraBold,
+    Fredoka_400Regular,
+    Fredoka_500Medium,
+    Fredoka_600SemiBold,
+    Fredoka_700Bold,
   });
+  if (!fontsLoaded) {
+    return null;
+  }
 
-  const handleGoBack = () => {
-    navigation.navigate("LogIn");
+  const handleAlert = () => {
+    Alert.alert(
+      "Are you sure you want to leave this page?",
+      "All unsaved progress will be lost...",
+      [
+        {
+          text: "Cancel",
+
+          style: "cancel",
+        },
+        {
+          text: "Exit",
+          onPress: () => navigation.navigate("LogIn"),
+          style: "default",
+        },
+      ]
+    );
   };
 
   const handleTD = () => {
@@ -84,7 +101,7 @@ export default function Signup() {
   const handleRegister = async () => {
     try {
       const response = await fetch(
-        "https://f70d-78-97-173-76.ngrok-free.app/api/users/register",
+        "https://b822-78-97-173-76.ngrok-free.app/api/users/register",
         {
           method: "POST",
           headers: {
@@ -102,8 +119,9 @@ export default function Signup() {
       );
       const data = await response.json();
       if (response.ok) {
-        alert(data.message);
-        navigation.navigate("pages/log_in");
+        //alert(data.message);
+        Alert.alert("Success!");
+        navigation.navigate("LogIn");
       } else {
         alert(data.message);
       }
@@ -120,7 +138,7 @@ export default function Signup() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
       >
-        <TouchableOpacity onPress={handleGoBack}>
+        <TouchableOpacity onPress={handleAlert}>
           <Image
             source={require("../assets/left-arrow.png")}
             style={styles.arrowicon}
@@ -281,7 +299,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontFamily: "OpenSans_800ExtraBold",
+    fontFamily: "Fredoka_700Bold",
   },
   inputName: {
     flexDirection: "row",
@@ -302,7 +320,7 @@ const styles = StyleSheet.create({
     height: 55,
     fontSize: 18,
     paddingHorizontal: 15,
-    fontFamily: "OpenSans_500Medium",
+    fontFamily: "Fredoka_500Medium",
     textAlignVertical: "center",
   },
   inputRows: {
@@ -328,7 +346,7 @@ const styles = StyleSheet.create({
     top: 0,
     color: "#A9A9A9",
     fontSize: 18,
-    fontFamily: "OpenSans_500Medium",
+    fontFamily: "Fredoka_500Medium",
     zIndex: 1,
     height: 55, // Ensure this height matches the TextInput's height
     lineHeight: 55, // Ensure lineHeight matches the TextInput's height for vertical alignment
@@ -338,7 +356,7 @@ const styles = StyleSheet.create({
     top: 0,
     color: "#A9A9A9",
     fontSize: 18,
-    fontFamily: "OpenSans_500Medium",
+    fontFamily: "Fredoka_500Medium",
     zIndex: 2, // Ensure this is above the static placeholder
     height: 55, // Ensure this height matches the TextInput's height
     lineHeight: 55, // Ensure lineHeight matches the TextInput's height for vertical alignment
@@ -346,7 +364,7 @@ const styles = StyleSheet.create({
   label: {
     marginBottom: 5,
     color: "#7B7B7B",
-    fontFamily: "OpenSans_500Medium",
+    fontFamily: "Fredoka_500Medium",
   },
   bottomPart: {
     justifyContent: "center",
@@ -373,14 +391,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   textTD: {
-    fontFamily: "OpenSans_800ExtraBold",
+    fontFamily: "Fredoka_700Bold",
     fontSize: 20,
   },
   containerConsent: {
     marginBottom: 25,
   },
   textConsent: {
-    fontFamily: "OpenSans_500Medium",
+    fontFamily: "Fredoka_500Medium",
   },
   textConsentTD: {
     textDecorationLine: "underline",
@@ -403,7 +421,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   textButton: {
-    fontFamily: "OpenSans_700Bold",
+    fontFamily: "Fredoka_700Bold",
     color: "white",
     fontSize: 20,
     fontWeight: "bold",

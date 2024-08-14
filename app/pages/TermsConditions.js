@@ -18,6 +18,10 @@ export default function TermsAndConditions() {
     OpenSans_800ExtraBold,
   });
 
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <SafeAreaView style={styles.containerTitle}>
       <Text style={styles.textTitle}>Terms & Conditions</Text>

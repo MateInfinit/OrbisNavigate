@@ -28,7 +28,7 @@ export default function Page1() {
   const { width, height } = useWindowDimensions();
 
   const handleContinue = () => {
-    navigation.navigate("Page2");
+    navigation.navigate("Page 2");
   };
 
   let [fontsLoaded] = useFonts({

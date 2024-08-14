@@ -13,23 +13,21 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useWindowDimensions } from "react-native";
-import { useFonts } from "@expo-google-fonts/open-sans";
+import { useFonts } from "@expo-google-fonts/fredoka";
 
 import {
-  OpenSans_400Regular,
-  OpenSans_500Medium,
-  OpenSans_600SemiBold,
-  OpenSans_700Bold,
-  OpenSans_800ExtraBold,
-} from "@expo-google-fonts/open-sans";
+  Fredoka_400Regular,
+  Fredoka_500Medium,
+  Fredoka_600SemiBold,
+  Fredoka_700Bold,
+} from "@expo-google-fonts/fredoka";
 
 export default function Description() {
   let [fontsLoaded] = useFonts({
-    OpenSans_400Regular,
-    OpenSans_500Medium,
-    OpenSans_600SemiBold,
-    OpenSans_700Bold,
-    OpenSans_800ExtraBold,
+    Fredoka_400Regular,
+    Fredoka_500Medium,
+    Fredoka_600SemiBold,
+    Fredoka_700Bold,
   });
   const navigation = useNavigation();
 
@@ -100,14 +98,14 @@ const styles = StyleSheet.create({
   },
   textDescriptionIntroduction: {
     fontSize: 17,
-    fontFamily: "OpenSans_700Bold",
+    fontFamily: "Fredoka_500Medium",
     textAlign: "center",
     justifyContent: "center",
     marginBottom: Platform.OS === "ios" ? 80 : 40,
   },
   textDescriptionContinue: {
     fontSize: 17,
-    fontFamily: "OpenSans_700Bold",
+    fontFamily: "Fredoka_500Medium",
     textAlign: "center",
     marginBottom: "15%",
     flexShrink: 1,
@@ -121,7 +119,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   continueButton: {
-    fontFamily: "OpenSans_600SemiBold",
+    fontFamily: "Fredoka_600SemiBold",
     color: "white",
     fontSize: 20,
     fontWeight: "bold",

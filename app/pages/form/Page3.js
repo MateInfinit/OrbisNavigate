@@ -19,9 +19,15 @@ import {
   Fredoka_600SemiBold,
   Fredoka_700Bold,
 } from "@expo-google-fonts/fredoka";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Page3() {
   const backgroundImage = require("../../assets/background.jpg"); // Update this path according to your project structure
+  const navigation = useNavigation();
+
+  const handleContinue = () => {
+    navigation.navigate("Page 4");
+  };
 
   const { width } = useWindowDimensions();
 
@@ -64,14 +70,20 @@ export default function Page3() {
           </View>
 
           <View style={styles.optionContainer}>
-            <TouchableOpacity style={[styles.button, { width: buttonWidth }]}>
+            <TouchableOpacity
+              style={[styles.button, { width: buttonWidth }]}
+              onPress={handleContinue}
+            >
               <Text style={styles.text}>Never</Text>
               <Text style={styles.context}>Vegan</Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.optionContainer}>
-            <TouchableOpacity style={[styles.button, { width: buttonWidth }]}>
+            <TouchableOpacity
+              style={[styles.button, { width: buttonWidth }]}
+              onPress={handleContinue}
+            >
               <Text style={styles.text}>Infrequently</Text>
               <Text style={styles.context}>
                 Vegetarian - eggs/dairy, no meat
@@ -80,7 +92,10 @@ export default function Page3() {
           </View>
 
           <View style={styles.optionContainer}>
-            <TouchableOpacity style={[styles.button, { width: buttonWidth }]}>
+            <TouchableOpacity
+              style={[styles.button, { width: buttonWidth }]}
+              onPress={handleContinue}
+            >
               <Text style={styles.text}>Occasionally</Text>
               <Text style={styles.context}>
                 Really like veggies - occasional meat, eggs/dairy
@@ -89,7 +104,10 @@ export default function Page3() {
           </View>
 
           <View style={styles.optionContainer}>
-            <TouchableOpacity style={[styles.button, { width: buttonWidth }]}>
+            <TouchableOpacity
+              style={[styles.button, { width: buttonWidth }]}
+              onPress={handleContinue}
+            >
               <Text style={styles.text}>Often</Text>
               <Text style={styles.context}>
                 Balanced meat/veggies - meat a few times a week, eggs/dairy
@@ -99,7 +117,10 @@ export default function Page3() {
           </View>
 
           <View style={styles.optionContainer}>
-            <TouchableOpacity style={[styles.button, { width: buttonWidth }]}>
+            <TouchableOpacity
+              style={[styles.button, { width: buttonWidth }]}
+              onPress={handleContinue}
+            >
               <Text style={styles.text}>Very often</Text>
               <Text style={styles.context}>Meat daily</Text>
             </TouchableOpacity>

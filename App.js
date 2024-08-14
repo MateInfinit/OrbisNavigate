@@ -11,6 +11,8 @@ import TermsConditions from "./app/pages/TermsConditions";
 import Page1 from "./app/pages/form/Page1";
 import Page2 from "./app/pages/form/Page2";
 import Page3 from "./app/pages/form/Page3";
+import Page4 from "./app/pages/form/Page4";
+
 const AuthStack = createNativeStackNavigator();
 const FormularStack = createNativeStackNavigator();
 
@@ -47,13 +49,16 @@ function FormularStackNavigator() {
     <FormularStack.Navigator
       initialRouteName="Page1"
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
+        headerBackTitleVisible: false, // Hides the back button title
+        headerTintColor: "black", // Changes the back button color to black
         contentStyle: { flex: 1 },
       }}
     >
-      <FormularStack.Screen name="Page1" component={Page1} />
-      <FormularStack.Screen name="Page2" component={Page2} />
-      <FormularStack.Screen name="Page3" component={Page3} />
+      <FormularStack.Screen name="Page 1" component={Page1} />
+      <FormularStack.Screen name="Page 2" component={Page2} />
+      <FormularStack.Screen name="Page 3" component={Page3} />
+      <FormularStack.Screen name="Page 4" component={Page4} />
     </FormularStack.Navigator>
   );
 }
@@ -63,7 +68,7 @@ const RootStack = createNativeStackNavigator();
 
 function RootStackNavigator() {
   return (
-    <RootStack.Navigator initialRouteName="FormularStack">
+    <RootStack.Navigator initialRouteName="AuthStack">
       <RootStack.Screen
         name="AuthStack"
         component={AuthStackNavigator}

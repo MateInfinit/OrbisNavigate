@@ -13,13 +13,11 @@ import { useNavigation } from "@react-navigation/native";
 
 import {
   useFonts,
-  OpenSans_400Regular,
-  OpenSans_500Medium,
-  OpenSans_600SemiBold,
-  OpenSans_700Bold,
-  OpenSans_800ExtraBold,
-} from "@expo-google-fonts/open-sans";
-import { router } from "expo-router";
+  Fredoka_400Regular,
+  Fredoka_500Medium,
+  Fredoka_600SemiBold,
+  Fredoka_700Bold,
+} from "@expo-google-fonts/fredoka";
 
 export default function Loading() {
   const navigation = useNavigation();
@@ -44,11 +42,10 @@ export default function Loading() {
   };
 
   let [fontsLoaded] = useFonts({
-    OpenSans_400Regular,
-    OpenSans_500Medium,
-    OpenSans_600SemiBold,
-    OpenSans_700Bold,
-    OpenSans_800ExtraBold,
+    Fredoka_400Regular,
+    Fredoka_500Medium,
+    Fredoka_600SemiBold,
+    Fredoka_700Bold,
   });
 
   useEffect(() => {
@@ -110,7 +107,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   text1: {
-    fontFamily: "OpenSans_700Bold",
+    fontFamily: "Fredoka_700Bold",
     fontSize: 30,
     paddingTop: "2%",
     letterSpacing: -1.38,

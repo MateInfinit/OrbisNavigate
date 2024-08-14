@@ -11,20 +11,23 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import {
   useFonts,
-  OpenSans_400Regular,
-  OpenSans_500Medium,
-  OpenSans_600SemiBold,
-  OpenSans_700Bold,
-  OpenSans_800ExtraBold,
-} from "@expo-google-fonts/open-sans";
-import { router } from "expo-router";
+  Fredoka_400Regular,
+  Fredoka_500Medium,
+  Fredoka_600SemiBold,
+  Fredoka_700Bold,
+} from "@expo-google-fonts/fredoka";
+
 export default function AllDone() {
+  const navigation = useNavigation();
+  const handleContinue = () => {
+    navigation.navigate("FormularStack");
+  };
+
   let [fontsLoaded] = useFonts({
-    OpenSans_400Regular,
-    OpenSans_500Medium,
-    OpenSans_600SemiBold,
-    OpenSans_700Bold,
-    OpenSans_800ExtraBold,
+    Fredoka_400Regular,
+    Fredoka_500Medium,
+    Fredoka_600SemiBold,
+    Fredoka_700Bold,
   });
   if (!fontsLoaded) {
     return null;
@@ -47,7 +50,7 @@ export default function AllDone() {
           </Text>
         </View>
         <View style={styles.buttonGetStarted}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleContinue}>
             <Text style={styles.text2}>Get Started</Text>
           </TouchableOpacity>
         </View>
@@ -75,7 +78,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontFamily: "OpenSans_800ExtraBold",
+    fontFamily: "Fredoka_700Bold",
   },
   containerText: {
     marginTop: "13%",
@@ -84,7 +87,7 @@ const styles = StyleSheet.create({
   },
   text1: {
     fontSize: 17,
-    fontFamily: "OpenSans_500Medium",
+    fontFamily: "Fredoka_500Medium",
     padding: 14,
     color: "black",
   },
@@ -99,7 +102,7 @@ const styles = StyleSheet.create({
   },
   text2: {
     color: "white",
-    fontFamily: "OpenSans_600SemiBold",
+    fontFamily: "Fredoka_600SemiBold",
     fontSize: 17,
   },
 });
