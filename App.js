@@ -8,70 +8,80 @@ import Recovery1 from "./app/pages/Recovery1";
 import SignUp from "./app/pages/SignUp";
 import AllDone from "./app/pages/AllDone";
 import TermsConditions from "./app/pages/TermsConditions";
-const Stack = createNativeStackNavigator();
+import Page1 from "./app/pages/form/Page1";
+import Page2 from "./app/pages/form/Page2";
+import Page3 from "./app/pages/form/Page3";
+const AuthStack = createNativeStackNavigator();
+const FormularStack = createNativeStackNavigator();
+
+// AuthStack Navigator
+function AuthStackNavigator({ navigation }) {
+  return (
+    <AuthStack.Navigator
+      initialRouteName="Loading"
+      screenOptions={{
+        headerShown: false,
+        contentStyle: { flex: 1 },
+      }}
+    >
+      <AuthStack.Screen name="Loading" component={Loading} />
+      <AuthStack.Screen name="Description" component={Description} />
+      <AuthStack.Screen name="LogIn" component={LogIn} />
+      <AuthStack.Screen name="Recovery1" component={Recovery1} />
+      <AuthStack.Screen name="SignUp" component={SignUp} />
+      <AuthStack.Screen
+        name="AllDone"
+        component={AllDone}
+        options={{
+          contentStyle: { flex: 1 },
+        }}
+      />
+      <AuthStack.Screen name="TermsConditions" component={TermsConditions} />
+    </AuthStack.Navigator>
+  );
+}
+
+// FormularStack Navigator
+function FormularStackNavigator() {
+  return (
+    <FormularStack.Navigator
+      initialRouteName="Page1"
+      screenOptions={{
+        headerShown: false,
+        contentStyle: { flex: 1 },
+      }}
+    >
+      <FormularStack.Screen name="Page1" component={Page1} />
+      <FormularStack.Screen name="Page2" component={Page2} />
+      <FormularStack.Screen name="Page3" component={Page3} />
+    </FormularStack.Navigator>
+  );
+}
+
+// Root Stack Navigator
+const RootStack = createNativeStackNavigator();
+
+function RootStackNavigator() {
+  return (
+    <RootStack.Navigator initialRouteName="FormularStack">
+      <RootStack.Screen
+        name="AuthStack"
+        component={AuthStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <RootStack.Screen
+        name="FormularStack"
+        component={FormularStackNavigator}
+        options={{ headerShown: false }}
+      />
+    </RootStack.Navigator>
+  );
+}
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Loading"
-        screenOptions={{
-          headerShown: false, // Hide the header if not needed
-          contentStyle: { flex: 1 }, // Ensure screen content uses all available space
-          // Optionally, you can set other styles for the screen
-        }}
-      >
-        <Stack.Screen
-          name="Loading"
-          component={Loading}
-          options={{
-            // Customize specific screen options if needed
-            contentStyle: { flex: 1 }, // Ensure content uses all available space
-          }}
-        />
-        <Stack.Screen
-          name="Description"
-          component={Description}
-          options={{
-            contentStyle: { flex: 1 },
-          }}
-        />
-        <Stack.Screen
-          name="LogIn"
-          component={LogIn}
-          options={{
-            contentStyle: { flex: 1 },
-          }}
-        />
-        <Stack.Screen
-          name="Recovery1"
-          component={Recovery1}
-          options={{
-            contentStyle: { flex: 1 },
-          }}
-        />
-        <Stack.Screen
-          name="SignUp"
-          component={SignUp}
-          options={{
-            contentStyle: { flex: 1 },
-          }}
-        />
-        <Stack.Screen
-          name="AllDone"
-          component={AllDone}
-          options={{
-            contentStyle: { flex: 1 },
-          }}
-        />
-        <Stack.Screen
-          name="TermsConditions"
-          component={TermsConditions}
-          options={{
-            contentStyle: { flex: 1 },
-          }}
-        />
-      </Stack.Navigator>
+      <RootStackNavigator />
     </NavigationContainer>
   );
 }

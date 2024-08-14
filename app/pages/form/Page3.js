@@ -10,7 +10,7 @@ import {
   useWindowDimensions,
   ActivityIndicator,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+
 import {
   useFonts,
   Fredoka_300Light,
@@ -20,15 +20,10 @@ import {
   Fredoka_700Bold,
 } from "@expo-google-fonts/fredoka";
 
-export default function Page1() {
-  const backgroundImage = require("../../assets/background.jpg");
-  const navigation = useNavigation();
+export default function Page3() {
+  const backgroundImage = require("../../assets/background.jpg"); // Update this path according to your project structure
 
   const { width } = useWindowDimensions();
-
-  const handleContinue = () => {
-    navigation.navigate("Page3");
-  };
 
   let [fontsLoaded] = useFonts({
     Fredoka_300Light,
@@ -45,7 +40,7 @@ export default function Page1() {
       </View>
     );
   } else {
-    const buttonWidth = width * 0.8;
+    const buttonWidth = width * 0.85;
 
     return (
       <SafeAreaView style={styles.root}>
@@ -56,59 +51,57 @@ export default function Page1() {
           source={backgroundImage}
           resizeMode="cover"
         >
-          <View style={{ marginTop: "20%", marginBottom: "20%" }}>
-            <Text style={styles.title}>How often do you shop?</Text>
+          <View
+            style={{
+              marginTop: "10%",
+              alignItems: "center",
+              marginBottom: "15%",
+            }}
+          >
+            <Text style={styles.title}>
+              How often do you eat animal based product?
+            </Text>
           </View>
 
           <View style={styles.optionContainer}>
-            <TouchableOpacity
-              style={[styles.button, { width: buttonWidth }]}
-              onPress={handleContinue}
-            >
-              <Text style={styles.text}>Rarely</Text>
+            <TouchableOpacity style={[styles.button, { width: buttonWidth }]}>
+              <Text style={styles.text}>Never</Text>
+              <Text style={styles.context}>Vegan</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.optionContainer}>
+            <TouchableOpacity style={[styles.button, { width: buttonWidth }]}>
+              <Text style={styles.text}>Infrequently</Text>
               <Text style={styles.context}>
-                You only buy new items when it's necessary. You try to fix
-                broken devices and wear clothing for multiple years.
+                Vegetarian - eggs/dairy, no meat
               </Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.optionContainer}>
-            <TouchableOpacity
-              style={[styles.button, { width: buttonWidth }]}
-              onPress={handleContinue}
-            >
-              <Text style={styles.text}>Average</Text>
+            <TouchableOpacity style={[styles.button, { width: buttonWidth }]}>
+              <Text style={styles.text}>Occasionally</Text>
               <Text style={styles.context}>
-                You like things that last a while but don't say no to the casual
-                upgrade.
+                Really like veggies - occasional meat, eggs/dairy
               </Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.optionContainer}>
-            <TouchableOpacity
-              style={[styles.button, { width: buttonWidth }]}
-              onPress={handleContinue}
-            >
-              <Text style={styles.text}>Shopper</Text>
+            <TouchableOpacity style={[styles.button, { width: buttonWidth }]}>
+              <Text style={styles.text}>Often</Text>
               <Text style={styles.context}>
-                You enjoy shopping for the latest and greatest. Whether it's
-                clothing or electronics, you've got to have it.
+                Balanced meat/veggies - meat a few times a week, eggs/dairy
+                almost daily
               </Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.optionContainer}>
-            <TouchableOpacity
-              style={[styles.button, { width: buttonWidth }]}
-              onPress={handleContinue}
-            >
-              <Text style={styles.text}>Luxury Shopper</Text>
-              <Text style={styles.context}>
-                You prefer high-end, luxury items. Only the best will do for
-                you, whether it's fashion or technology.
-              </Text>
+            <TouchableOpacity style={[styles.button, { width: buttonWidth }]}>
+              <Text style={styles.text}>Very often</Text>
+              <Text style={styles.context}>Meat daily</Text>
             </TouchableOpacity>
           </View>
         </ImageBackground>
@@ -134,10 +127,11 @@ const styles = StyleSheet.create({
     fontFamily: "Fredoka_500Medium",
     fontSize: 32,
     textAlign: "center",
+    color: "#000", // Adjust color if needed
+    marginBottom: 20,
   },
   optionContainer: {
-    marginBottom: "7%",
-    marginTop: "2%", // Adjusting the top margin to make sure there's space between the title and buttons
+    marginBottom: "5%",
   },
   button: {
     backgroundColor: "white",
@@ -157,11 +151,11 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: "Fredoka_500Medium",
-    fontSize: 17,
-    marginBottom: 5, // Space between the title and context
+    fontSize: 20,
+    marginBottom: 5,
   },
   context: {
-    fontSize: 15,
+    fontSize: 16,
     fontFamily: "Fredoka_400Regular",
     textAlign: "center",
   },
